@@ -69,11 +69,11 @@ export default {
 <style scoped>
 /* The footer is fixed to the bottom of the page */
 
-footer {
+/* footer {
 
     position: absolute;
     bottom: 0;
-}
+} */
 
 @media (max-height:800px) {
     footer {
