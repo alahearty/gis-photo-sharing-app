@@ -1,4 +1,5 @@
-﻿using gis_photo_sharing_app.Application.Common.Exceptions;
+using System;
+using gis_photo_sharing_app.Application.Common.Exceptions;
 using gis_photo_sharing_app.Application.TodoItems.Commands.CreateTodoItem;
 using gis_photo_sharing_app.Application.TodoItems.Commands.DeleteTodoItem;
 using gis_photo_sharing_app.Application.TodoLists.Commands.CreateTodoList;
@@ -14,12 +15,12 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoItems.Commands
     public class DeleteTodoItemTests : TestBase
     {
         [Test]
-        public void ShouldRequireValidTodoItemId()
+        public async Task ShouldRequireValidTodoItemId()
         {
             var command = new DeleteTodoItemCommand { Id = 99 };
 
-            FluentActions.Invoking(() =>
-                SendAsync(command)).Should().Throw<NotFoundException>();
+            Func<Task> act = () => SendAsync(command);
+            await act.Should().ThrowAsync<NotFoundException>();
         }
 
         [Test]
@@ -41,9 +42,9 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoItems.Commands
                 Id = itemId
             });
 
-            var list = await FindAsync<TodoItem>(listId);
+            var item = await FindAsync<TodoItem>(itemId);
 
-            list.Should().BeNull();
+            item.Should().BeNull();
         }
     }
 }

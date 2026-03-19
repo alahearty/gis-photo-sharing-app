@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.Common.Exceptions;
+using gis_photo_sharing_app.Application.Common.Exceptions;
 using gis_photo_sharing_app.Application.TodoItems.Commands.CreateTodoItem;
 using gis_photo_sharing_app.Application.TodoLists.Commands.CreateTodoList;
 using gis_photo_sharing_app.Domain.Entities;
@@ -14,12 +14,12 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoItems.Commands
     public class CreateTodoItemTests : TestBase
     {
         [Test]
-        public void ShouldRequireMinimumFields()
+        public async Task ShouldRequireMinimumFields()
         {
             var command = new CreateTodoItemCommand();
 
-            FluentActions.Invoking(() =>
-                SendAsync(command)).Should().Throw<ValidationException>();
+            Func<Task> act = () => SendAsync(command);
+            await act.Should().ThrowAsync<ValidationException>();
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoItems.Commands
             item.ListId.Should().Be(command.ListId);
             item.Title.Should().Be(command.Title);
             item.CreatedBy.Should().Be(userId);
-            item.Created.Should().BeCloseTo(DateTime.Now, 10000);
+            item!.Created.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(10));
             item.LastModifiedBy.Should().BeNull();
             item.LastModified.Should().BeNull();
         }

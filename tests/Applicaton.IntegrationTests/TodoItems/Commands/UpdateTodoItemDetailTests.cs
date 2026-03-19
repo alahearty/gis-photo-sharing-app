@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.Common.Exceptions;
+using gis_photo_sharing_app.Application.Common.Exceptions;
 using gis_photo_sharing_app.Application.TodoItems.Commands.CreateTodoItem;
 using gis_photo_sharing_app.Application.TodoItems.Commands.UpdateTodoItem;
 using gis_photo_sharing_app.Application.TodoItems.Commands.UpdateTodoItemDetail;
@@ -17,16 +17,18 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoItems.Commands
     public class UpdateTodoItemDetailTests : TestBase
     {
         [Test]
-        public void ShouldRequireValidTodoItemId()
+        public async Task ShouldRequireValidTodoItemId()
         {
-            var command = new UpdateTodoItemCommand
+            var command = new UpdateTodoItemDetailCommand
             {
                 Id = 99,
-                Title = "New Title"
+                ListId = 1,
+                Note = "Note",
+                Priority = PriorityLevel.None
             };
 
-            FluentActions.Invoking(() =>
-                SendAsync(command)).Should().Throw<NotFoundException>();
+            Func<Task> act = () => SendAsync(command);
+            await act.Should().ThrowAsync<NotFoundException>();
         }
 
         [Test]
@@ -63,7 +65,7 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoItems.Commands
             item.LastModifiedBy.Should().NotBeNull();
             item.LastModifiedBy.Should().Be(userId);
             item.LastModified.Should().NotBeNull();
-            item.LastModified.Should().BeCloseTo(DateTime.Now, 10000);
+            item!.LastModified!.Value.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(10));
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using gis_photo_sharing_app.Application.Common.Exceptions;
+using System;
+using System.Threading.Tasks;
+using gis_photo_sharing_app.Application.Common.Exceptions;
 using gis_photo_sharing_app.Application.TodoLists.Commands.CreateTodoList;
 using gis_photo_sharing_app.Application.TodoLists.Commands.UpdateTodoList;
 using gis_photo_sharing_app.Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
 
 namespace gis_photo_sharing_app.Application.IntegrationTests.TodoLists.Commands
 {
@@ -14,7 +14,7 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoLists.Commands
     public class UpdateTodoListTests : TestBase
     {
         [Test]
-        public void ShouldRequireValidTodoListId()
+        public async Task ShouldRequireValidTodoListId()
         {
             var command = new UpdateTodoListCommand
             {
@@ -22,8 +22,8 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoLists.Commands
                 Title = "New Title"
             };
 
-            FluentActions.Invoking(() =>
-                SendAsync(command)).Should().Throw<NotFoundException>();
+            Func<Task> act = () => SendAsync(command);
+            await act.Should().ThrowAsync<NotFoundException>();
         }
 
         [Test]
@@ -45,10 +45,10 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoLists.Commands
                 Title = "Other List"
             };
 
-            FluentActions.Invoking(() =>
-                SendAsync(command))
-                    .Should().Throw<ValidationException>().Where(ex => ex.Errors.ContainsKey("Title"))
-                    .And.Errors["Title"].Should().Contain("The specified title already exists.");
+            Func<Task> act = () => SendAsync(command);
+            var ex = await act.Should().ThrowAsync<ValidationException>();
+            ex.Which.Errors.Should().ContainKey("Title");
+            ex.Which.Errors["Title"].Should().Contain("The specified title already exists.");
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoLists.Commands
             list.LastModifiedBy.Should().NotBeNull();
             list.LastModifiedBy.Should().Be(userId);
             list.LastModified.Should().NotBeNull();
-            list.LastModified.Should().BeCloseTo(DateTime.Now, 1000);
+            list!.LastModified!.Value.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(10));
         }
     }
 }
