@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.Common.Interfaces;
+using gis_photo_sharing_app.Application.Common.Interfaces;
 using gis_photo_sharing_app.Infrastructure.Identity;
 using gis_photo_sharing_app.Infrastructure.Persistence;
 using gis_photo_sharing_app.WebUI;
@@ -82,6 +82,15 @@ public class Testing
         var mediator = scope.ServiceProvider.GetService<IMediator>();
 
         return await mediator.Send(request);
+    }
+
+    public static async Task SendAsync(IRequest request)
+    {
+        using var scope = _scopeFactory.CreateScope();
+
+        var mediator = scope.ServiceProvider.GetService<IMediator>();
+
+        await mediator.Send(request);
     }
 
     public static async Task<string> RunAsDefaultUserAsync()
