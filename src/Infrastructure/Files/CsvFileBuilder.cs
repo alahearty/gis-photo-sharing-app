@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.Common.Interfaces;
+using gis_photo_sharing_app.Application.Common.Interfaces;
 using gis_photo_sharing_app.Application.TodoLists.Queries.ExportTodos;
 using gis_photo_sharing_app.Infrastructure.Files.Maps;
 using CsvHelper;
