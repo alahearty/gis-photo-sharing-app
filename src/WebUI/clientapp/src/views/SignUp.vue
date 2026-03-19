@@ -1,65 +1,70 @@
 <template>
-<div class="login container">
-    <div class="card text-white bg-light navbar-light " style="max-width: 45rem; margin-top:5vh">
-        <div class="card-header" style="color:green">Sign Up</div>
-        <div class=" card-body">
-            <form class="was-validated">
-                <div class="form-group">
-                    <label for="uname" class="float-left">Username:</label>
-                    <input type="text" class="form-control" id="uname" placeholder="Enter username" name="uname" required />
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-                </div>
-                <div class="form-group">
-                    <label for="pwd" class="float-left">Password:</label>
-                    <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required />
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" name="remember" required />
-                        I agree on blabla.
-                        <div class="valid-feedback">Valid.</div>
-                        <div class="invalid-feedback">Check this checkbox to continue.</div>
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+  <div class="container" style="max-width: 400px; margin-top: 3rem;">
+    <div class="card">
+      <div class="card-header">Sign Up</div>
+      <div class="card-body">
+        <form @submit.prevent="submit">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              v-model="form.email"
+              type="email"
+              class="form-control"
+              required
+              placeholder="you@example.com"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              id="password"
+              v-model="form.password"
+              type="password"
+              class="form-control"
+              required
+              minlength="6"
+              placeholder="At least 6 characters"
+            />
+          </div>
+          <p v-if="error" class="text-danger small">{{ error }}</p>
+          <button type="submit" class="btn btn-primary btn-block" :disabled="loading">
+            {{ loading ? "Creating account..." : "Sign Up" }}
+          </button>
+        </form>
+        <p class="mt-3 mb-0 small text-center">
+          Already have an account? <router-link to="/Login">Login</router-link>
+        </p>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
-<script scoped>
+<script>
 export default {
-    data() {
-        return {
-
-        }
+  name: "SignUp",
+  data() {
+    return {
+      form: { email: "", password: "" },
+      loading: false,
+      error: "",
+    };
+  },
+  methods: {
+    async submit() {
+      this.loading = true;
+      this.error = "";
+      try {
+        await this.$store.dispatch("register", {
+          email: this.form.email,
+          password: this.form.password,
+        });
+        this.$router.push("/");
+      } catch (e) {
+        this.error = e.message || "Registration failed.";
+      }
+      this.loading = false;
     },
-    methods: {
-
-    },
-    created: {
-
-    }
-
-}
+  },
+};
 </script>
-
-<style scoped>
-.login {
-    width: 500px;
-}
-
-@media (max-width: 880px) {
-
-    .login {
-        display: block;
-        width: 100%;
-        text-align: center;
-    }
-
-}
-</style>
