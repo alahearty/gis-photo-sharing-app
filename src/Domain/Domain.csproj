@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>gis_photo_sharing_app.Domain</RootNamespace>
     <AssemblyName>gis_photo_sharing_app.Domain</AssemblyName>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 </Project>
