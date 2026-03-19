@@ -7,13 +7,13 @@
         <h4>About <span>PhotoShoot GIS App</span></h4>
 
         <p class="footer-links">
-            <a href="#">Home</a>
+            <router-link to="/">Home</router-link>
             |
-            <a href="#">Blog</a>
+            <router-link to="/About">About</router-link>
             |
-            <a href="#">About</a>
+            <router-link to="/MapRenderer">Map</router-link>
             |
-            <a href="#">Contact</a>
+            <router-link to="/PhotoUpload">Share Photo</router-link>
         </p>
 
     </div>

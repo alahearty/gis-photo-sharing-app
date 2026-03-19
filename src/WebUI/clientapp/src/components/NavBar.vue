@@ -1,46 +1,44 @@
 <template>
-<nav class="navbar navbar-expand-sm bg-dark navbar-light static-top">
-    <div class="row">
-        <a class="navbar-brand ">
-            <router-link to="/"><img src="http://placehold.it/150x50?text=Logo" alt="" class="mybrand" /></router-link>
-        </a>
-    </div>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark static-top">
+    <router-link to="/" class="navbar-brand">
+        <img src="http://placehold.it/150x50?text=GIS+Photos" alt="Logo" class="mybrand" />
+    </router-link>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse my-navs" id="navbarResponsive">
         <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link">
-                    <router-link to="/">Home</router-link>
-                    <span class="sr-only">(current)</span>
-                </a>
+            <li class="nav-item">
+                <router-link to="/" class="nav-link">Home</router-link>
             </li>
             <li class="nav-item">
-                <a class="nav-link">
-                    <router-link to="/About">About</router-link>
-                </a>
+                <router-link to="/About" class="nav-link">About</router-link>
             </li>
             <li class="nav-item">
-                <a class="nav-link">
-                    <router-link to="/MapRenderer">Map</router-link>
-                </a>
+                <router-link to="/MapRenderer" class="nav-link">Map</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link to="/PhotoUpload" class="nav-link">Share Photo</router-link>
             </li>
         </ul>
 
         <ul class="navbar-nav ml-auto my-right-navs">
-            <li class="nav-item">
-                <a class="nav-link">
-                    <i class="fa fa-sign-out" aria-hidden="true"></i>
-                    <router-link to="/SignUp">&nbsp;Sign Up</router-link>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link">
-                    <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    <router-link to="/Login">&nbsp;Login</router-link>
-                </a>
-            </li>
+            <template v-if="$store.getters.isLoggedIn">
+                <li class="nav-item">
+                    <span class="nav-link text-light">{{ $store.state.user?.email }}</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" @click.prevent="logout">Logout</a>
+                </li>
+            </template>
+            <template v-else>
+                <li class="nav-item">
+                    <router-link to="/SignUp" class="nav-link">Sign Up</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/Login" class="nav-link">Login</router-link>
+                </li>
+            </template>
         </ul>
     </div>
 </nav>
@@ -48,10 +46,13 @@
 
 <script>
 export default {
-    name: 'HelloWorld',
-    props: {
-        msg: String
-    }
+    name: 'NavBar',
+    methods: {
+        logout() {
+            this.$store.dispatch('logout');
+            this.$router.push('/');
+        },
+    },
 }
 </script>
 

@@ -2,7 +2,7 @@
 <div class="home">
     <div class="jumbotron">
         <h1>PhotoShoot GIS Application</h1>
-        <p>A Simple Photo Shoot Application Using VeuJs, HTML, CSS, Javascript, MapBox and Firebase</p>
+        <p>Share photos with locations on an interactive map. Upload photos, browse locations, and explore.</p>
     </div>
     <div class="card-columns">
         <div class="card bg-primary">
