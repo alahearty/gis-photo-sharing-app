@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Domain.Entities;
+using gis_photo_sharing_app.Domain.Entities;
 using gis_photo_sharing_app.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
@@ -39,6 +39,16 @@ namespace gis_photo_sharing_app.Infrastructure.Persistence
                     }
                 });
 
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.Photos.Any())
+            {
+                context.Photos.AddRange(
+                    new Photo { Title = "Central Park", Description = "Beautiful day in NYC", FilePath = "/uploads/sample1.jpg", Latitude = 40.7851, Longitude = -73.9683 },
+                    new Photo { Title = "Brooklyn Bridge", Description = "Sunset view", FilePath = "/uploads/sample2.jpg", Latitude = 40.7061, Longitude = -73.9969 },
+                    new Photo { Title = "Times Square", Description = "Night lights", FilePath = "/uploads/sample3.jpg", Latitude = 40.7580, Longitude = -73.9855 }
+                );
                 await context.SaveChangesAsync();
             }
         }
