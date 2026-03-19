@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.Common.Exceptions;
+using gis_photo_sharing_app.Application.Common.Exceptions;
 using gis_photo_sharing_app.Application.Common.Interfaces;
 using gis_photo_sharing_app.Domain.Entities;
 using gis_photo_sharing_app.Domain.Enums;
@@ -28,7 +28,7 @@ namespace gis_photo_sharing_app.Application.TodoItems.Commands.UpdateTodoItemDet
             _context = context;
         }
 
-        public async Task<Unit> Handle(UpdateTodoItemDetailCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateTodoItemDetailCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.TodoItems.FindAsync(request.Id);
 
@@ -42,8 +42,6 @@ namespace gis_photo_sharing_app.Application.TodoItems.Commands.UpdateTodoItemDet
             entity.Note = request.Note;
 
             await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
         }
     }
 }

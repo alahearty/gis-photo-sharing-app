@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using gis_photo_sharing_app.Application.Common.Behaviours;
+using System.Reflection;
+using AutoMapper;
 using FluentValidation;
+using gis_photo_sharing_app.Application.Common.Behaviours;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace gis_photo_sharing_app.Application
 {
@@ -13,7 +13,7 @@ namespace gis_photo_sharing_app.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));

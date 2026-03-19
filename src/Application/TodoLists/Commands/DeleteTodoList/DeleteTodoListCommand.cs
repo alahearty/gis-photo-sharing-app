@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.Common.Exceptions;
+using gis_photo_sharing_app.Application.Common.Exceptions;
 using gis_photo_sharing_app.Application.Common.Interfaces;
 using gis_photo_sharing_app.Domain.Entities;
 using MediatR;
@@ -23,7 +23,7 @@ namespace gis_photo_sharing_app.Application.TodoLists.Commands.DeleteTodoList
             _context = context;
         }
 
-        public async Task<Unit> Handle(DeleteTodoListCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteTodoListCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.TodoLists
                 .Where(l => l.Id == request.Id)
@@ -37,8 +37,6 @@ namespace gis_photo_sharing_app.Application.TodoLists.Commands.DeleteTodoList
             _context.TodoLists.Remove(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
-
-            return Unit.Value;
         }
     }
 }
