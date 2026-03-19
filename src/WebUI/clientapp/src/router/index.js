@@ -40,11 +40,14 @@ const routes = [
   {
     path: "/MapRenderer",
     name: "MapRenderer",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MapRenderer.vue"),
+      import(/* webpackChunkName: "map" */ "../views/MapRenderer.vue"),
+  },
+  {
+    path: "/PhotoUpload",
+    name: "PhotoUpload",
+    component: () =>
+      import(/* webpackChunkName: "upload" */ "../views/PhotoUpload.vue"),
   },
 ];
 
