@@ -1,4 +1,4 @@
-# GIS PhotoShare
+﻿# GIS PhotoShare
 
 GIS PhotoShare is a location-aware photograph sharing platform built around Port Harcourt,
 Rivers State, Nigeria. Users upload photographs with real-world coordinates, explore them through an
@@ -8,7 +8,7 @@ preserved.
 
 ## Highlights
 
-- **Port Harcourt by default.** The map opens at approximately 4.8156° N, 7.0498° E, zoom 12. A
+- **Port Harcourt by default.** The map opens at approximately 4.8156 N, 7.0498 E, zoom 12. A
   distant photograph never causes the initial view to jump to a global extent.
 - **Four coordinate methods.** Use browser geolocation, pick a point on the upload map, enter
   latitude/longitude manually, or apply GPS metadata detected in a JPEG.
@@ -79,6 +79,16 @@ docs/deployment               Deployment guide
 - Optional: Google Chrome or Microsoft Edge for Playwright browser tests
 
 ## Quick start
+
+### One-click Windows launcher
+
+Double-click **`run.cmd`**, or right-click **`run.ps1` â†’ Run with PowerShell**.
+
+The launcher checks .NET and Node.js, installs the Vue client dependencies if needed, builds the
+client and starts the ASP.NET Core WebUI. The browser opens at <http://localhost:5000>. The Vue
+frontend is served by the same process; there is no separate frontend window.
+
+### Manual start
 
 From the repository root:
 
