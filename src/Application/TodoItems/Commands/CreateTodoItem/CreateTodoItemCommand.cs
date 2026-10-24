@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.Common.Interfaces;
+using gis_photo_sharing_app.Application.Common.Interfaces;
 using gis_photo_sharing_app.Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -28,6 +28,7 @@ namespace gis_photo_sharing_app.Application.TodoItems.Commands.CreateTodoItem
             {
                 ListId = request.ListId,
                 Title = request.Title,
+                Note = string.Empty,
                 Done = false
             };
 

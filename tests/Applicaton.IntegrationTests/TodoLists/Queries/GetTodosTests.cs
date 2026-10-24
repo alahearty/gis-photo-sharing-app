@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.TodoLists.Queries.GetTodos;
+using gis_photo_sharing_app.Application.TodoLists.Queries.GetTodos;
 using gis_photo_sharing_app.Domain.Entities;
 using FluentAssertions;
 using NUnit.Framework;
@@ -27,15 +27,16 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoLists.Queries
             await AddAsync(new TodoList
             {
                 Title = "Shopping",
+                Colour = "#FFFFFF",
                 Items =
                     {
-                        new TodoItem { Title = "Apples", Done = true },
-                        new TodoItem { Title = "Milk", Done = true },
-                        new TodoItem { Title = "Bread", Done = true },
-                        new TodoItem { Title = "Toilet paper" },
-                        new TodoItem { Title = "Pasta" },
-                        new TodoItem { Title = "Tissues" },
-                        new TodoItem { Title = "Tuna" }
+                        new TodoItem { Title = "Apples", Note = "", Done = true },
+                        new TodoItem { Title = "Milk", Note = "", Done = true },
+                        new TodoItem { Title = "Bread", Note = "", Done = true },
+                        new TodoItem { Title = "Toilet paper", Note = "" },
+                        new TodoItem { Title = "Pasta", Note = "" },
+                        new TodoItem { Title = "Tissues", Note = "" },
+                        new TodoItem { Title = "Tuna", Note = "" }
                     }
             });
 

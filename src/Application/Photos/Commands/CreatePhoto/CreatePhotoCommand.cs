@@ -13,7 +13,10 @@ public record CreatePhotoCommand(
     string? ThumbnailPath,
     double Latitude,
     double Longitude,
-    string? TakenAt) : IRequest<int>;
+    string? TakenAt,
+    string? LocationName = null,
+    string? Category = null,
+    bool IsPublic = true) : IRequest<int>;
 
 public class CreatePhotoCommandHandler : IRequestHandler<CreatePhotoCommand, int>
 {
@@ -30,13 +33,16 @@ public class CreatePhotoCommandHandler : IRequestHandler<CreatePhotoCommand, int
     {
         var entity = new Photo
         {
-            Title = request.Title,
-            Description = request.Description,
+            Title = request.Title.Trim(),
+            Description = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description.Trim(),
             FilePath = request.FilePath,
             ThumbnailPath = request.ThumbnailPath,
             Latitude = request.Latitude,
             Longitude = request.Longitude,
-            TakenAt = request.TakenAt,
+            LocationName = string.IsNullOrWhiteSpace(request.LocationName) ? null : request.LocationName.Trim(),
+            Category = string.IsNullOrWhiteSpace(request.Category) ? "General" : request.Category.Trim(),
+            IsPublic = request.IsPublic,
+            TakenAt = string.IsNullOrWhiteSpace(request.TakenAt) ? null : request.TakenAt.Trim(),
             CreatedByUserId = _currentUserService.UserId,
         };
 

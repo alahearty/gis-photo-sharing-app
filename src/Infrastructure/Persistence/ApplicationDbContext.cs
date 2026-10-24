@@ -40,11 +40,12 @@ namespace gis_photo_sharing_app.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
+                        entry.Entity.CreatedBy = _currentUserService.UserId ?? string.Empty;
                         entry.Entity.Created = _dateTime.Now;
+                        entry.Entity.LastModifiedBy = entry.Entity.CreatedBy;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                        entry.Entity.LastModifiedBy = _currentUserService.UserId ?? string.Empty;
                         entry.Entity.LastModified = _dateTime.Now;
                         break;
                 }

@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace gis_photo_sharing_app.Application.TodoLists.Commands.UpdateTodoList
 {
-    public class UpdateTodoListCommand : IRequest
+    public class UpdateTodoListCommand : IRequest<Unit>
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
     }
 
-    public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListCommand>
+    public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListCommand, Unit>
     {
         private readonly IApplicationDbContext _context;
 
@@ -23,7 +23,7 @@ namespace gis_photo_sharing_app.Application.TodoLists.Commands.UpdateTodoList
             _context = context;
         }
 
-        public async Task Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateTodoListCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.TodoLists.FindAsync(request.Id);
 
@@ -35,6 +35,7 @@ namespace gis_photo_sharing_app.Application.TodoLists.Commands.UpdateTodoList
             entity.Title = request.Title;
 
             await _context.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

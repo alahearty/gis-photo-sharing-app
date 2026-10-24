@@ -1,12 +1,8 @@
-﻿using gis_photo_sharing_app.Application.Common.Mappings;
-using gis_photo_sharing_app.Domain.Entities;
-
 namespace gis_photo_sharing_app.Application.TodoLists.Queries.ExportTodos
 {
-    public class TodoItemRecord : IMapFrom<TodoItem>
+    public class TodoItemRecord
     {
-        public string Title { get; set; }
-
+        public string Title { get; set; } = string.Empty;
         public bool Done { get; set; }
     }
 }

@@ -4,14 +4,30 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Match Identity UI / integration tests: ApplicationPartManager loads this assembly name -->
+    <AssemblyName>gis_photo_sharing_app.WebUI</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Set to true in MSBuild to skip npm (API-only rebuild when clientapp/dist is already built). -->
+    <SkipVueBuild Condition="'$(SkipVueBuild)' == ''">false</SkipVueBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.32">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
+
+  <Target Name="BuildVueApp" BeforeTargets="BeforeBuild" Condition="'$(SkipVueBuild)' != 'true' And Exists('$(MSBuildProjectDirectory)\clientapp\package.json')">
+    <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)\clientapp" />
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)\clientapp\dist\index.html')" Text="Vue build did not produce clientapp\dist\index.html. Run npm install &amp;&amp; npm run build in src\WebUI\clientapp." />
+  </Target>
+  <Target Name="EnsureVueDistWhenSkipped" BeforeTargets="BeforeBuild" Condition="'$(SkipVueBuild)' == 'true'">
+    <Error Condition="!Exists('$(MSBuildProjectDirectory)\clientapp\dist\index.html')" Text="clientapp\dist is missing. Run npm run build in src\WebUI\clientapp, or build without /p:SkipVueBuild=true." />
+  </Target>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />

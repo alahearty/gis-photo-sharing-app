@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using gis_photo_sharing_app.Application.Common.Interfaces;
-using gis_photo_sharing_app.Domain.Enums;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using gis_photo_sharing_app.Application.Common.Interfaces;
+using gis_photo_sharing_app.Domain.Enums;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace gis_photo_sharing_app.Application.TodoLists.Queries.GetTodos
 {
@@ -18,12 +16,10 @@ namespace gis_photo_sharing_app.Application.TodoLists.Queries.GetTodos
     public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
 
-        public GetTodosQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetTodosQueryHandler(IApplicationDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<TodosVm> Handle(GetTodosQuery request, CancellationToken cancellationToken)
@@ -36,9 +32,25 @@ namespace gis_photo_sharing_app.Application.TodoLists.Queries.GetTodos
                     .ToList(),
 
                 Lists = await _context.TodoLists
-                    .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider)
                     .OrderBy(t => t.Title)
-                    .ToListAsync(cancellationToken)
+                    .Select(t => new TodoListDto
+                    {
+                        Id = t.Id,
+                        Title = t.Title,
+                        Items = t.Items
+                            .OrderBy(i => i.Id)
+                            .Select(i => new TodoItemDto
+                            {
+                                Id = i.Id,
+                                ListId = i.ListId,
+                                Title = i.Title,
+                                Done = i.Done,
+                                Priority = (int)i.Priority,
+                                Note = i.Note,
+                            })
+                            .ToList(),
+                    })
+                    .ToListAsync(cancellationToken),
             };
         }
     }

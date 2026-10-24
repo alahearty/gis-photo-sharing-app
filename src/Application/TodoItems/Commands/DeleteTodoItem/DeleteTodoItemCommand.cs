@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace gis_photo_sharing_app.Application.TodoItems.Commands.DeleteTodoItem
 {
-    public class DeleteTodoItemCommand : IRequest
+    public class DeleteTodoItemCommand : IRequest<Unit>
     {
         public int Id { get; set; }
     }
 
-    public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand>
+    public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemCommand, Unit>
     {
         private readonly IApplicationDbContext _context;
 
@@ -21,7 +21,7 @@ namespace gis_photo_sharing_app.Application.TodoItems.Commands.DeleteTodoItem
             _context = context;
         }
 
-        public async Task Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteTodoItemCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.TodoItems.FindAsync(request.Id);
 
@@ -33,6 +33,7 @@ namespace gis_photo_sharing_app.Application.TodoItems.Commands.DeleteTodoItem
             _context.TodoItems.Remove(entity);
 
             await _context.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

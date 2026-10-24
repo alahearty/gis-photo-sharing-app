@@ -1,18 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
-import './registerServiceWorker'
 import router from './router'
 import store from './store'
 
-//import Mapbox from "mapbox-gl-vue";
-import "bootstrap";
+// Older builds registered a Workbox/PWA service worker; unregister so fresh assets load (Leaflet, no Mapbox SW).
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((regs) => {
+    regs.forEach((r) => r.unregister());
+  });
+}
+
 import "bootstrap/dist/css/bootstrap.min.css";
-//import material-icon scss
 import "font-awesome/css/font-awesome.min.css";
- 
-//defined as global component
-Vue.component('VueFontawesome', require('vue-fontawesome-icon/VueFontawesome.vue').default);
- //Vue.use(Mapbox);
 Vue.config.productionTip = false
 
 new Vue({

@@ -1,3 +1,4 @@
+using System;
 using gis_photo_sharing_app.Domain.Common;
 
 namespace gis_photo_sharing_app.Domain.Entities
@@ -11,6 +12,9 @@ namespace gis_photo_sharing_app.Domain.Entities
         public string? ThumbnailPath { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public string? LocationName { get; set; }
+        public string? Category { get; set; }
+        public bool IsPublic { get; set; } = true;
         public string? TakenAt { get; set; }
         public string? CreatedByUserId { get; set; }
     }

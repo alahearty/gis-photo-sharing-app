@@ -1,27 +1,12 @@
-﻿using AutoMapper;
-using gis_photo_sharing_app.Application.Common.Mappings;
-using gis_photo_sharing_app.Domain.Entities;
-
 namespace gis_photo_sharing_app.Application.TodoLists.Queries.GetTodos
 {
-    public class TodoItemDto : IMapFrom<TodoItem>
+    public class TodoItemDto
     {
         public int Id { get; set; }
-
         public int ListId { get; set; }
-
-        public string Title { get; set; }
-
+        public string Title { get; set; } = string.Empty;
         public bool Done { get; set; }
-
         public int Priority { get; set; }
-
-        public string Note { get; set; }
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<TodoItem, TodoItemDto>()
-                .ForMember(d => d.Priority, opt => opt.MapFrom(s => (int)s.Priority));
-        }
+        public string Note { get; set; } = string.Empty;
     }
 }

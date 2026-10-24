@@ -1,4 +1,4 @@
-﻿using gis_photo_sharing_app.Application.Common.Interfaces;
+using gis_photo_sharing_app.Application.Common.Interfaces;
 using gis_photo_sharing_app.Domain.Entities;
 using MediatR;
 using System.Threading;
@@ -25,6 +25,7 @@ namespace gis_photo_sharing_app.Application.TodoLists.Commands.CreateTodoList
             var entity = new TodoList();
 
             entity.Title = request.Title;
+            entity.Colour = "#FFFFFF";
 
             _context.TodoLists.Add(entity);
 

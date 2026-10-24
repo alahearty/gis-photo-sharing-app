@@ -47,7 +47,7 @@ namespace gis_photo_sharing_app.Application.IntegrationTests.TodoItems.Commands
             item.Title.Should().Be(command.Title);
             item.CreatedBy.Should().Be(userId);
             item!.Created.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(10));
-            item.LastModifiedBy.Should().BeNull();
+            item.LastModifiedBy.Should().Be(userId);
             item.LastModified.Should().BeNull();
         }
     }

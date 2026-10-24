@@ -163,6 +163,10 @@ namespace gis_photo_sharing_app.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Category")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -171,7 +175,8 @@ namespace gis_photo_sharing_app.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedByUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
@@ -181,6 +186,9 @@ namespace gis_photo_sharing_app.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
@@ -192,11 +200,16 @@ namespace gis_photo_sharing_app.Infrastructure.Migrations
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
 
+                    b.Property<string>("LocationName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
                     b.Property<string>("TakenAt")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("ThumbnailPath")
                         .HasMaxLength(500)
@@ -208,6 +221,16 @@ namespace gis_photo_sharing_app.Infrastructure.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Category");
+
+                    b.HasIndex("Created");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("IsPublic");
+
+                    b.HasIndex("Latitude", "Longitude");
 
                     b.ToTable("Photos");
                 });
